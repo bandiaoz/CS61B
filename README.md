@@ -7,6 +7,7 @@
 这门课所有的编程作业都是使用 Java 完成的。没有 Java 基础的同学也不用担心，课程会有保姆级的教程，从 IDEA（一款主流的 Java 编程环境）的配置讲起，把 Java 的核心语法与特性事无巨细地讲授，大家完全不用担心跟不上的问题。
 
 - 课程网站：https://sp21.datastructur.es/
+- 课程代码：https://github.com/bandiaoz/lectureCode-fa20
 - 课程作业：每年略有不同，具体要求详见课程网站
 - 课程教材：https://joshhug.gitbooks.io/hug61b/content/
 - 自动测评：https://www.gradescope.com/
