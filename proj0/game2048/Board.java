@@ -86,8 +86,7 @@ public class Board implements Iterable<Tile> {
      * Returns whether or not this move is a merge.
      * */
     public boolean move(int col, int row, Tile tile) {
-        int pcol = viewPerspective.col(col, row, size()),
-                prow = viewPerspective.row(col, row, size());
+        int pcol = viewPerspective.col(col, row, size()), prow = viewPerspective.row(col, row, size());
         if (tile.col() == pcol && tile.row() == prow) {
             return false;
         }
@@ -104,7 +103,7 @@ public class Board implements Iterable<Tile> {
     }
 
     @Override
-    /** Returns the board as a string, used for debugging. */
+    /* Returns the board as a string, used for debugging. */
     public String toString() {
         Formatter out = new Formatter();
         out.format("%n[%n");

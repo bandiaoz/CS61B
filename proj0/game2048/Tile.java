@@ -62,8 +62,7 @@ public class Tile {
         if (next == null) {
             return 0;
         } else {
-            return Math.max(Math.abs(row - next.row()),
-                            Math.abs(col - next.col()));
+            return Math.max(Math.abs(row - next.row()), Math.abs(col - next.col()));
         }
     }
 

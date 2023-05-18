@@ -5,7 +5,7 @@ import java.util.Observable;
 
 
 /** The state of a game of 2048.
- *  @author TODO: YOUR NAME HERE
+ *  @author bandiaoz
  */
 public class Model extends Observable {
     /** Current contents of the board. */
@@ -95,7 +95,6 @@ public class Model extends Observable {
     }
 
     /** Tilt the board toward SIDE. Return true iff this changes the board.
-     *
      * 1. If two Tile objects are adjacent in the direction of motion and have
      *    the same value, they are merged into one Tile of twice the original
      *    value and that new value is added to the score instance variable
@@ -110,10 +109,39 @@ public class Model extends Observable {
         boolean changed;
         changed = false;
 
-        // TODO: Modify this.board (and perhaps this.score) to account
-        // for the tilt to the Side SIDE. If the board changed, set the
-        // changed local variable to true.
+        // TODO: Modify this.board (and perhaps this.score) to account for the tilt to the Side SIDE.
+        //  If the board changed, set the changed local variable to true.
+        board.setViewingPerspective(side);
+        int[] max_row = new int[size()];
+        for (int col = 0; col < size(); col++) {
+            max_row[col] = size();
+        }
+        for (int col = 0; col < size(); col++) {
+            for (int row = size() - 1; row >= 0; row--) {
+                if (board.tile(col, row) == null) {
+                    continue;
+                }
+                int next_row = row;
+                for (int row2 = row + 1; row2 < max_row[col]; row2++) {
+                    if (board.tile(col, row2) == null) {
+                        next_row = row2;
+                        changed = true;
+                    } else if (board.tile(col, row2).value() == board.tile(col, row).value()) {
+                        next_row = row2;
+                        changed = true;
+                        break;
+                    } else {
+                        break;
+                    }
+                }
+                if (board.move(col, next_row, board.tile(col, row))) {
+                    max_row[col] = next_row;
+                    score += board.tile(col, next_row).value();
+                }
+            }
+        }
 
+        board.setViewingPerspective(Side.NORTH);
         checkGameOver();
         if (changed) {
             setChanged();
@@ -138,6 +166,13 @@ public class Model extends Observable {
      * */
     public static boolean emptySpaceExists(Board b) {
         // TODO: Fill in this function.
+        for (int i = 0; i < b.size(); i++) {
+            for (int j = 0; j < b.size(); j++) {
+                if (b.tile(i, j) == null) {
+                    return true;
+                }
+            }
+        }
         return false;
     }
 
@@ -148,6 +183,13 @@ public class Model extends Observable {
      */
     public static boolean maxTileExists(Board b) {
         // TODO: Fill in this function.
+        for (int i = 0; i < b.size(); i++) {
+            for (int j = 0; j < b.size(); j++) {
+                if (b.tile(i, j) != null && b.tile(i, j).value() == MAX_PIECE) {
+                    return true;
+                }
+            }
+        }
         return false;
     }
 
@@ -159,12 +201,27 @@ public class Model extends Observable {
      */
     public static boolean atLeastOneMoveExists(Board b) {
         // TODO: Fill in this function.
-        return false;
+        boolean emptySpace = emptySpaceExists(b);
+        boolean adjacentTiles = false;
+        for (int i = 0; i < b.size(); i++) {
+            for (int j = 0; j < b.size(); j++) {
+                if (b.tile(i, j) != null) {
+                    if (i + 1 < b.size() && b.tile(i + 1, j) != null
+                            && b.tile(i, j).value() == b.tile(i + 1, j).value()) {
+                        adjacentTiles = true;
+                    } else if (j + 1 < b.size() && b.tile(i, j + 1) != null
+                            && b.tile(i, j).value() == b.tile(i, j + 1).value()) {
+                        adjacentTiles = true;
+                    }
+                }
+            }
+        }
+        return emptySpace || adjacentTiles;
     }
 
 
     @Override
-     /** Returns the model as a string, used for debugging. */
+    /* Returns the model as a string, used for debugging. */
     public String toString() {
         Formatter out = new Formatter();
         out.format("%n[%n");
@@ -184,7 +241,7 @@ public class Model extends Observable {
     }
 
     @Override
-    /** Returns whether two models are equal. */
+    /* Returns whether two models are equal. */
     public boolean equals(Object o) {
         if (o == null) {
             return false;
@@ -196,7 +253,7 @@ public class Model extends Observable {
     }
 
     @Override
-    /** Returns hash code of Model’s string. */
+    /* Returns hash code of Model’s string. */
     public int hashCode() {
         return toString().hashCode();
     }
