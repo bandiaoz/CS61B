@@ -2,22 +2,17 @@ package deque;
 
 import java.util.Iterator;
 
-public class ArrayDeque<T> {
+public class ArrayDeque<T> implements Deque<T> {
     private T[] items;
     private int size;
     private int nextFirst;
     private int nextLast;
 
-    @SuppressWarnings("unchecked")
-    private static <T> T[] cast(Object[] a) {
-        return (T[]) a;
-    }
-
     /**
      * Creates an empty array deque.
      */
     public ArrayDeque() {
-        items = cast(new Object[8]);
+        items = (T[]) new Object[8];
         size = 0;
         nextFirst = 0;
         nextLast = 1;
@@ -41,7 +36,7 @@ public class ArrayDeque<T> {
      * Resizes the underlying array to the target capacity.
      */
     private void resize(int capacity) {
-        T[] newItems = cast(new Object[capacity]);
+        T[] newItems = (T[]) new Object[capacity];
         int firstIndex = plusOne(nextFirst);
         for (int i = 0; i < size; i++, firstIndex = plusOne(firstIndex)) {
             newItems[i] = items[firstIndex];
@@ -54,6 +49,7 @@ public class ArrayDeque<T> {
     /**
      * Adds an item of type T to the front of the deque. You can assume that item is never null.
      */
+    @Override
     public void addFirst(T item) {
         if (size == items.length) {
             resize(size * 2);
@@ -66,6 +62,7 @@ public class ArrayDeque<T> {
     /**
      * Adds an item of type T to the back of the deque. You can assume that item is never null.
      */
+    @Override
     public void addLast(T item) {
         if (size == items.length) {
             resize(size * 2);
@@ -76,15 +73,9 @@ public class ArrayDeque<T> {
     }
 
     /**
-     * Returns true if deque is empty, false otherwise.
-     */
-    public boolean isEmpty() {
-        return size == 0;
-    }
-
-    /**
      * Returns the number of items in the deque.
      */
+    @Override
     public int size() {
         return size;
     }
@@ -93,6 +84,7 @@ public class ArrayDeque<T> {
      * Prints the items in the deque from first to last, separated by a space.
      * Once all the items have been printed, print out a new line.
      */
+    @Override
     public void printDeque() {
         int p = plusOne(nextFirst);
         while (p != nextLast) {
@@ -105,6 +97,7 @@ public class ArrayDeque<T> {
     /**
      * Removes and returns the item at the front of the deque. If no such item exists, returns null.
      */
+    @Override
     public T removeFirst() {
         if (size == 0) {
             return null;
@@ -123,6 +116,7 @@ public class ArrayDeque<T> {
     /**
      * Removes and returns the item at the back of the deque. If no such item exists, returns null.
      */
+    @Override
     public T removeLast() {
         if (size == 0) {
             return null;
@@ -142,6 +136,7 @@ public class ArrayDeque<T> {
      * Gets the item at the given index, where 0 is the front, 1 is the next item, and so forth.
      * If no such item exists, returns null. Must not alter the deque!
      */
+    @Override
     public T get(int index) {
         if (index >= size || index < 0) {
             return null;
@@ -157,7 +152,7 @@ public class ArrayDeque<T> {
     private class ArrayDequeIterator implements Iterator<T> {
         private int index;
 
-        public ArrayDequeIterator() {
+        ArrayDequeIterator() {
             index = 0;
         }
 
@@ -186,13 +181,13 @@ public class ArrayDeque<T> {
      *  the generic T’s equals method) in the same order.
      * (ADDED 2/12: You’ll need to use the instance of keywords for this)
      */
-    @SuppressWarnings("unchecked")
+    @Override
     public boolean equals(Object o) {
         if (!(o instanceof ArrayDeque)) {
             return false;
         }
         ArrayDeque<T> other = (ArrayDeque<T>) o;
-        if (size != other.size) {
+        if (size != other.size()) {
             return false;
         }
         Iterator<T> thisIterator = iterator();
