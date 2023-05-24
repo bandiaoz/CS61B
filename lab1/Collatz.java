@@ -4,11 +4,7 @@
 public class Collatz {
 
     public static int nextNumber(int n) {
-        if (n % 2 == 1) {
-            return 3 * n + 1;
-        } else {
-            return n / 2;
-        }
+        return n % 2 == 1 ? 3 * n + 1 : n / 2;
     }
 
     public static void main(String[] args) {
