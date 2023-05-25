@@ -1,11 +1,12 @@
 package capers;
 
 import java.io.File;
+import java.util.Arrays;
 
 import static capers.Utils.*;
 
 /** Canine Capers: A Gitlet Prelude.
- * @author TODO
+ * @author bandiaoz
 */
 public class Main {
     /**
@@ -13,23 +14,23 @@ public class Main {
      * story [text] -- Appends "text" + a newline to a story file in the
      *                 .capers directory. Additionally, prints out the
      *                 current story.
-     *
+     * <p>
      * dog [name] [breed] [age] -- Persistently creates a dog with
      *                             the specified parameters; should also print
      *                             the dog's toString(). Assume dog names are
      *                             unique.
-     *
+     * <p>
      * birthday [name] -- Advances a dog's age persistently
      *                    and prints out a celebratory message.
-     *
+     * <p>
      * All persistent data should be stored in a ".capers"
      * directory in the current working directory.
-     *
+     * <p>
      * Recommended structure (you do not have to follow):
-     *
+     * <p>
      * *YOU SHOULD NOT CREATE THESE MANUALLY,
      *  YOUR PROGRAM SHOULD CREATE THESE FOLDERS/FILES*
-     *
+     * <p>
      * .capers/ -- top level folder for all persistent data in your lab12 folder
      *    - dogs/ -- folder containing all of the persistent data for dogs
      *    - story -- file containing the current story
@@ -53,15 +54,18 @@ public class Main {
         case "dog":
             validateNumArgs("dog", args, 4);
             // TODO: make a dog
+            CapersRepository.makeDog(args[1], args[2], Integer.parseInt(args[3]));
             break;
         case "birthday":
             validateNumArgs("birthday", args, 2);
             // TODO: celebrate this dog's birthday
+            Dog dog1 = Dog.fromFile(args[1]);
+            assert dog1 != null;
+            dog1.haveBirthday();
             break;
         default:
             exitWithError(String.format("Unknown command: %s", args[0]));
         }
-        return;
     }
 
     /**
