@@ -13,8 +13,8 @@ public class TestBSTMapExtra {
     */
     @Test
     public void sanityKeySetTest() {
-    	BSTMap<String, Integer> b = new BSTMap<String, Integer>();
-        HashSet<String> values = new HashSet<String>();
+    	BSTMap<String, Integer> b = new BSTMap<>();
+        HashSet<String> values = new HashSet<>();
         for (int i = 0; i < 455; i++) {
             b.put("hi" + i, 1);
             values.add("hi" + i);
@@ -39,7 +39,7 @@ public class TestBSTMapExtra {
      */
     @Test
     public void testRemoveRoot() {
-        BSTMap<String,String> q = new BSTMap<String,String>();
+        BSTMap<String,String> q = new BSTMap<>();
         q.put("c","a");
         q.put("b","a");
         q.put("a","a");
@@ -58,7 +58,7 @@ public class TestBSTMapExtra {
      */
     @Test
     public void testRemoveThreeCases() {
-        BSTMap<String,String> q = new BSTMap<String,String>();
+        BSTMap<String,String> q = new BSTMap<>();
         q.put("c","a");
         q.put("b","a");
         q.put("a","a");
